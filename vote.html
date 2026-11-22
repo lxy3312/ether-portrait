@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>01 — 10</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --ink: #161616;
+    --muted: #8c8c88;
+    --line: #eaeae6;
+    --gold: #d49b1a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    padding-bottom: 112px;
+  }
+
+  /* Minimal Top Navigation */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(247, 247, 245, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--ink);
+  }
+  .dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 30px;
+    height: 28px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .dot:hover { color: var(--ink); }
+  .dot.active {
+    background: var(--ink);
+    color: #fff;
+  }
+  .view-toggle {
+    font-size: 12px;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .view-toggle:hover { color: var(--ink); border-color: #cfcfca; }
+
+  /* Main Gallery Stage */
+  .stage {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 28px 24px 20px;
+  }
+  .pair-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* Editorial Garment Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 24px 24px;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card.starred {
+    border-color: #e4cc8f;
+    box-shadow: 0 10px 34px rgba(212, 155, 26, 0.08);
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .num {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .star-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+  .star-btn:hover {
+    border-color: #d6d6d0;
+    transform: scale(1.05);
+  }
+  .star-btn:active { transform: scale(0.92); }
+  .star-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: #9e9e98;
+    fill: none;
+    stroke-width: 1.6;
+    transition: all 0.2s ease;
+  }
+  .star-btn.on {
+    border-color: #ecd49a;
+    background: #fffcf3;
+  }
+  .star-btn.on svg {
+    stroke: var(--gold);
+    fill: var(--gold);
+  }
+
+  /* HUGE Front + Back Display */
+  .tee-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .tee-box {
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+  .tee-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+  .tee-box:hover img { transform: scale(1.02); }
+  .side-tag {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: #b0b0aa;
+    pointer-events: none;
+  }
+
+  /* Pair Step Controls */
+  .pager {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-btn {
+    height: 48px;
+    padding: 0 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .nav-prev {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid #d9d9d4;
+  }
+  .nav-prev:hover:not(:disabled) { border-color: var(--ink); }
+  .nav-prev:disabled { opacity: 0.32; cursor: default; }
+  .nav-next {
+    background: var(--ink);
+    color: #fff;
+    border: 1px solid var(--ink);
+  }
+  .nav-next:hover { background: #2c2c2c; }
+  .page-meta {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Bottom Starred Summary Section */
+  .starred-section {
+    max-width: 1440px;
+    margin: 36px auto 0;
+    padding: 28px 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .starred-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .starred-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+  .starred-title svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--gold);
+    stroke: var(--gold);
+  }
+  .copy-btn {
+    font-size: 12px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.18s ease;
+  }
+  .copy-btn:disabled { opacity: 0.25; cursor: default; }
+  .starred-empty {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 24px 0;
+  }
+  .starred-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .mini-card {
+    background: #fff;
+    border: 1px solid #e7d4a5;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .mini-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .mini-num {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .mini-rm {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  .mini-imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .mini-imgs img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+  }
+
+  /* Sticky Bottom Pill showing live Starred numbers */
+  .dock {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 60;
+    background: rgba(22, 22, 22, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    font-size: 13px;
+    max-width: 92vw;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+  .dock-star { color: #f1bd38; font-size: 15px; }
+  .dock-nums { display: flex; gap: 6px; align-items: center; }
+  .dock-pill {
+    background: rgba(255,255,255,0.14);
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .dock-copy {
+    background: #fff;
+    color: #111;
+    border: none;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+
+  /* Fullscreen Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 96vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .lightbox-cap {
+    margin-top: 12px;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .topbar-inner { padding: 12px 14px; }
+    .stage { padding: 16px 12px 12px; }
+    .card { padding: 14px 12px 16px; border-radius: 12px; }
+    .num { font-size: 22px; }
+    .tee-pair { gap: 6px; }
+    .nav-btn { padding: 0 20px; height: 44px; font-size: 13px; }
+    .starred-section { padding: 22px 12px 0; }
+    .dot { width: 26px; height: 26px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">01 — 10</div>
+    <div class="dots" id="dots"></div>
+    <button class="view-toggle" id="modeBtn" onclick="toggleMode()">全部展开</button>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="pair-grid" id="stageGrid"></div>
+
+  <div class="pager" id="pager">
+    <button class="nav-btn nav-prev" id="prevBtn" onclick="go(-1)">← 上一组</button>
+    <div class="page-meta" id="pageMeta">1 / 5</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="go(1)">下一组 →</button>
+  </div>
+</main>
+
+<section class="starred-section" id="starredSection">
+  <div class="starred-head">
+    <div class="starred-title">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="starredCount">已收藏 0 款</span>
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyStarred()" disabled>复制编号</button>
+  </div>
+  <div id="starredBody"></div>
+</section>
+
+<div class="dock" id="dock" style="display:none;">
+  <span class="dock-star">★</span>
+  <div class="dock-nums" id="dockNums"></div>
+  <button class="dock-copy" onclick="copyStarred()" id="dockCopyBtn">复制</button>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lbImg" src="" alt="" />
+  <div class="lightbox-cap" id="lbCap"></div>
+</div>
+
+<script>
+const ITEMS = [
+  { id: "01", front: "vote-img/front_base.jpg", back: "vote-img/01_b.jpg" },
+  { id: "02", front: "vote-img/front_base.jpg", back: "vote-img/02_b.jpg" },
+  { id: "03", front: "vote-img/front_base.jpg", back: "vote-img/03_b.jpg" },
+  { id: "04", front: "vote-img/front_base.jpg", back: "vote-img/04_b.jpg" },
+  { id: "05", front: "vote-img/front_base.jpg", back: "vote-img/05_b.jpg" },
+  { id: "06", front: "vote-img/front_base.jpg", back: "vote-img/06_b.jpg" },
+  { id: "07", front: "vote-img/07_f.jpg", back: "vote-img/07_b.jpg" },
+  { id: "08", front: "vote-img/08_f.jpg", back: "vote-img/08_b.jpg" },
+  { id: "09", front: "vote-img/front_base.jpg", back: "vote-img/09_b.jpg" },
+  { id: "10", front: "vote-img/front_base.jpg", back: "vote-img/10_b.jpg" }
+];
+
+const STAR_SVG = `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+
+let page = 0; // 0..4 (2 items per page)
+let showAll = false;
+let starred = new Set(JSON.parse(localStorage.getItem('lily_tee_stars') || '[]'));
+
+function saveStars() {
+  localStorage.setItem('lily_tee_stars', JSON.stringify([...starred]));
+}
+
+function renderDots() {
+  const el = document.getElementById('dots');
+  if (showAll) {
+    el.innerHTML = '';
+    return;
+  }
+  el.innerHTML = [0,1,2,3,4].map(i => `
+    <button class="dot ${i === page ? 'active' : ''}" onclick="jump(${i})">${i + 1}</button>
+  `).join('');
+}
+
+function cardHTML(item) {
+  const isStar = starred.has(item.id);
+  return `
+    <article class="card ${isStar ? 'starred' : ''}" id="card-${item.id}">
+      <div class="card-head">
+        <div class="num">${item.id}</div>
+        <button class="star-btn ${isStar ? 'on' : ''}" aria-label="Star ${item.id}" onclick="toggleStar('${item.id}')">
+          ${STAR_SVG}
+        </button>
+      </div>
+      <div class="tee-pair">
+        <div class="tee-box" onclick="openZoom('${item.front}', '${item.id} · FRONT')">
+          <img src="${item.front}" alt="${item.id} front" loading="eager" />
+          <span class="side-tag">FRONT</span>
+        </div>
+        <div class="tee-box" onclick="openZoom('${item.back}', '${item.id} · BACK')">
+          <img src="${item.back}" alt="${item.id} back" loading="eager" />
+          <span class="side-tag">BACK</span>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderStage() {
+  const grid = document.getElementById('stageGrid');
+  const pager = document.getElementById('pager');
+  const slice = showAll ? ITEMS : ITEMS.slice(page * 2, page * 2 + 2);
+  grid.innerHTML = slice.map(cardHTML).join('');
+  pager.style.display = showAll ? 'none' : 'flex';
+  document.getElementById('prevBtn').disabled = (page === 0);
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.textContent = (page === 4) ? '查看已收藏 ↓' : '下一组 →';
+  document.getElementById('pageMeta').textContent = `${page + 1} / 5`;
+  document.getElementById('modeBtn').textContent = showAll ? '两组浏览' : '全部展开';
+  renderDots();
+}
+
+function renderStarred() {
+  const list = ITEMS.filter(x => starred.has(x.id));
+  document.getElementById('starredCount').textContent = `已收藏 ${list.length} 款`;
+  document.getElementById('copyBtn').disabled = (list.length === 0);
+  const body = document.getElementById('starredBody');
+  const dock = document.getElementById('dock');
+  if (list.length === 0) {
+    body.innerHTML = `<div class="starred-empty">点亮右上角星星即可收藏</div>`;
+    dock.style.display = 'none';
+    return;
+  }
+  body.innerHTML = `<div class="starred-grid">` + list.map(item => `
+    <div class="mini-card" onclick="jumpToItem('${item.id}')">
+      <div class="mini-top">
+        <span class="mini-num">${item.id}</span>
+        <button class="mini-rm" title="取消收藏" onclick="event.stopPropagation(); toggleStar('${item.id}')">★</button>
+      </div>
+      <div class="mini-imgs">
+        <img src="${item.front}" alt="${item.id} front" />
+        <img src="${item.back}" alt="${item.id} back" />
+      </div>
+    </div>
+  `).join('') + `</div>`;
+
+  dock.style.display = 'flex';
+  document.getElementById('dockNums').innerHTML = list.map(item =>
+    `<span class="dock-pill" onclick="jumpToItem('${item.id}')">${item.id}</span>`
+  ).join('');
+}
+
+function toggleStar(id) {
+  if (starred.has(id)) starred.delete(id);
+  else starred.add(id);
+  saveStars();
+  renderStage();
+  renderStarred();
+}
+
+function jump(p) {
+  page = Math.max(0, Math.min(4, p));
+  renderStage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function go(delta) {
+  if (delta > 0 && page === 4) {
+    document.getElementById('starredSection').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  jump(page + delta);
+}
+
+function jumpToItem(id) {
+  const idx = ITEMS.findIndex(x => x.id === id);
+  if (idx < 0) return;
+  if (!showAll) {
+    page = Math.floor(idx / 2);
+    renderStage();
+  }
+  setTimeout(() => {
+    const el = document.getElementById('card-' + id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 40);
+}
+
+function toggleMode() {
+  showAll = !showAll;
+  renderStage();
+}
+
+function openZoom(src, cap) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lbCap').textContent = cap;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function copyStarred() {
+  const ids = ITEMS.filter(x => starred.has(x.id)).map(x => x.id);
+  if (!ids.length) return;
+  const text = '★ ' + ids.join('、');
+  navigator.clipboard.writeText(text).then(() => {
+    const b1 = document.getElementById('copyBtn');
+    const b2 = document.getElementById('dockCopyBtn');
+    b1.textContent = '已复制'; b2.textContent = '已复制';
+    setTimeout(() => { b1.textContent = '复制编号'; b2.textContent = '复制'; }, 1400);
+  }).catch(() => alert(text));
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+    return;
+  }
+  if (!showAll) {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  }
+});
+
+renderStage();
+renderStarred();
+</script>
+</body>
+</html>

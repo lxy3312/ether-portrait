@@ -163,6 +163,42 @@
     cursor: pointer;
   }
 
+  .cache-btn {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--ink);
+    font-size: 11.5px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+  .cache-btn:hover { border-color: var(--ink); }
+  .cache-btn.busy { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .cache-btn.done { background: #edf5ee; color: #24632c; border-color: #b8d8bc; }
+  .cache-btn.warn { background: #fdf3eb; color: #a84d10; border-color: #e6c2a3; }
+  .cache-bar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .cache-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+    transition: width 0.2s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+  .cache-fill.show { opacity: 1; }
+  .cache-fill.done { background: #2d7a36; }
+
   /* ===================== VOTE VIEW (Borderless Lookbook) ===================== */
   .stage {
     max-width: 1180px;
@@ -648,6 +684,7 @@
     .step-pill { height: 26px; padding: 0 7px; font-size: 11px; }
     .ghost-btn { height: 26px; padding: 0 9px; font-size: 11px; }
     .star-counter-btn { height: 26px; padding: 0 8px; font-size: 11px; }
+    .cache-btn { height: 26px; padding: 0 8px; font-size: 10.5px; }
     .stage { padding: 22px 14px 8px; }
     .card { padding-bottom: 28px; margin-bottom: 28px; }
     .num { font-size: 40px; }
@@ -679,10 +716,12 @@
     </div>
     <div class="steps" id="steps"></div>
     <div class="top-actions" id="voteTopActions">
+      <button class="cache-btn" id="cacheBtn" onclick="startPrecache()">缓存全图</button>
       <button class="star-counter-btn" id="starJumpBtn" onclick="scrollToStarred()" style="display:none;">★ <span id="topStarNum">0</span></button>
       <button class="ghost-btn" id="modeBtn" onclick="toggleMode()">全部</button>
     </div>
   </div>
+  <div class="cache-bar"><div class="cache-fill" id="cacheFill"></div></div>
 </header>
 
 <!-- ==================== VOTE APP ==================== -->
@@ -893,7 +932,8 @@ function switchApp(m) {
   document.getElementById('voteApp').style.display = (m === 'vote') ? 'block' : 'none';
   document.getElementById('diyApp').classList.toggle('active', m === 'diy');
   document.getElementById('steps').style.display = (m === 'vote') ? 'flex' : 'none';
-  document.getElementById('voteTopActions').style.visibility = (m === 'vote') ? 'visible' : 'hidden';
+  document.getElementById('modeBtn').style.display = (m === 'vote') ? 'inline-block' : 'none';
+  document.getElementById('starJumpBtn').style.display = (m === 'vote' && starred.size) ? 'inline-flex' : 'none';
   if (m === 'diy') renderDiyAll();
   window.scrollTo({ top: 0 });
 }
@@ -935,14 +975,14 @@ function cardHTML(item, popId) {
       <div class="tee-pair">
         <figure class="tee-fig">
           <div class="tee-box" onclick="openLb('${item.id}', 'front')">
-            <img src="${item.front}" alt="${item.id} front" loading="eager" />
+            <img src="${resolvedSrc(item.front)}" alt="${item.id} front" loading="eager" />
             <span class="zoom-hint">${ZOOM_SVG}</span>
           </div>
           <figcaption>Front</figcaption>
         </figure>
         <figure class="tee-fig">
           <div class="tee-box" onclick="openLb('${item.id}', 'back')">
-            <img src="${item.back}" alt="${item.id} back" loading="eager" />
+            <img src="${resolvedSrc(item.back)}" alt="${item.id} back" loading="eager" />
             <span class="zoom-hint">${ZOOM_SVG}</span>
           </div>
           <figcaption>Back</figcaption>
@@ -1002,8 +1042,8 @@ function renderStarred() {
         <button class="mini-rm" title="取消收藏" onclick="event.stopPropagation(); toggleStar('${item.id}')">★</button>
       </div>
       <div class="mini-imgs">
-        <img src="${item.front}" alt="${item.id} front" />
-        <img src="${item.back}" alt="${item.id} back" />
+        <img src="${resolvedSrc(item.front)}" alt="${item.id} front" />
+        <img src="${resolvedSrc(item.back)}" alt="${item.id} back" />
       </div>
     </div>
   `).join('') + `</div>`;
@@ -1153,12 +1193,13 @@ function syncLbUI() {
   lb.classList.toggle('detail-mode', lbDetail);
 
   // Immediately preload sibling detail & other side so switches feel instantaneous
-  preloadUrl(lbSide === 'front' ? item.frontDetail : item.backDetail);
-  preloadUrl(lbSide === 'front' ? item.back : item.front);
+  preloadUrl(resolvedSrc(lbSide === 'front' ? item.frontDetail : item.backDetail));
+  preloadUrl(resolvedSrc(lbSide === 'front' ? item.back : item.front));
 
-  const src = lbDetail
+  const rawSrc = lbDetail
     ? (lbSide === 'front' ? item.frontDetail : item.backDetail)
     : (lbSide === 'front' ? item.front : item.back);
+  const src = resolvedSrc(rawSrc);
 
   if (lbImg.getAttribute('src') !== src) {
     const tok = ++lbLoadToken;
@@ -1357,7 +1398,7 @@ function ensureAspect(src, cb) {
     aspectCache.set(src, r);
     cb(r);
   };
-  i.src = src;
+  i.src = resolvedSrc(src);
 }
 
 function renderDiyBoard(side) {
@@ -1376,7 +1417,7 @@ function renderDiyBoard(side) {
 
     const img = document.createElement('img');
     img.className = 'diy-print-img';
-    img.src = layer.src;
+    img.src = resolvedSrc(layer.src);
     img.style.left = layer.x + '%';
     img.style.top = layer.y + '%';
     img.style.width = layer.w + '%';
@@ -1591,7 +1632,7 @@ function renderDiyShelf() {
   const grid = document.getElementById('diyGrid');
   grid.innerHTML = filtered.map(a => `
     <button class="diy-asset" onclick="pickDiyAsset('${a.id}')">
-      <img src="${a.src}" alt="${a.label}" loading="lazy" />
+      <img src="${resolvedSrc(a.src)}" alt="${a.label}" loading="lazy" />
       <span>${a.label}</span>
     </button>
   `).join('') + `
@@ -1615,7 +1656,7 @@ function loadImgAsync(src) {
     i.crossOrigin = 'anonymous';
     i.onload = () => res(i);
     i.onerror = rej;
-    i.src = src;
+    i.src = resolvedSrc(src);
   });
 }
 
@@ -1703,9 +1744,177 @@ document.addEventListener('keydown', e => {
 
 window.addEventListener('resize', renderSteps);
 
+
+// =========================================================================
+// One-Click Full Image Precache (Browser Cache Storage + In-Memory Blob URLs)
+// =========================================================================
+const CACHE_NAME = 'ether-vote-cache-v3';
+const blobCache = new Map(); // originalUrl -> objectUrl
+let cacheRunning = false;
+
+function resolvedSrc(u) {
+  return blobCache.get(u) || u;
+}
+
+function getAllCacheUrls() {
+  const ordered = [];
+  const seen = new Set();
+  const push = u => {
+    if (!u || u.startsWith('data:') || u.startsWith('blob:') || seen.has(u)) return;
+    seen.add(u);
+    ordered.push(u);
+  };
+  // Priority 1: all 10 voting tees (front & back)
+  ITEMS.forEach(it => { push(it.front); push(it.back); });
+  // Priority 2: all HD print details
+  ITEMS.forEach(it => { push(it.frontDetail); push(it.backDetail); });
+  // Priority 3: DIY blank tees & all 15 DIY prints
+  push(BLANK.front); push(BLANK.back);
+  DIY_ASSETS.forEach(a => push(a.src));
+  return ordered;
+}
+
+function applyCachedDom() {
+  const bf = document.querySelector('#diyStageFront .diy-base');
+  const bb = document.querySelector('#diyStageBack .diy-base');
+  if (bf) bf.src = resolvedSrc(BLANK.front);
+  if (bb) bb.src = resolvedSrc(BLANK.back);
+}
+
+async function fetchOneWithCache(url, cacheObj, retries = 2) {
+  if (blobCache.has(url)) return true;
+  try {
+    if (cacheObj) {
+      const hit = await cacheObj.match(url);
+      if (hit) {
+        const blob = await hit.blob();
+        const objUrl = URL.createObjectURL(blob);
+        blobCache.set(url, objUrl);
+        return true;
+      }
+    }
+  } catch (_) {}
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const resp = await fetch(url, { cache: 'force-cache' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      if (cacheObj) {
+        try { await cacheObj.put(url, resp.clone()); } catch (_) {}
+      }
+      const blob = await resp.blob();
+      const objUrl = URL.createObjectURL(blob);
+      blobCache.set(url, objUrl);
+      // Warm decode into memory
+      const img = new Image();
+      img.src = objUrl;
+      return true;
+    } catch (_) {
+      if (attempt < retries) await new Promise(r => setTimeout(r, 450 * (attempt + 1)));
+    }
+  }
+  return false;
+}
+
+async function startPrecache() {
+  if (cacheRunning) return;
+  const btn = document.getElementById('cacheBtn');
+  const fill = document.getElementById('cacheFill');
+  const urls = getAllCacheUrls();
+
+  // Offline self-contained HTML: everything is already embedded data URIs!
+  if (!urls.length) {
+    btn.className = 'cache-btn done';
+    btn.textContent = '已离线缓存 ✓';
+    return;
+  }
+
+  cacheRunning = true;
+  btn.className = 'cache-btn busy';
+  fill.classList.remove('done');
+  fill.classList.add('show');
+
+  let cacheObj = null;
+  try {
+    if ('caches' in window) cacheObj = await caches.open(CACHE_NAME);
+  } catch (_) {}
+
+  let done = 0;
+  let failed = 0;
+  const total = urls.length;
+  const queue = [...urls];
+  const updateProgress = () => {
+    const pct = Math.round((done / total) * 100);
+    fill.style.width = pct + '%';
+    btn.textContent = `缓存中 ${done}/${total}`;
+  };
+  updateProgress();
+
+  const workers = Array.from({ length: 4 }, async () => {
+    while (queue.length) {
+      const u = queue.shift();
+      const ok = await fetchOneWithCache(u, cacheObj, 2);
+      done++;
+      if (!ok) failed++;
+      updateProgress();
+    }
+  });
+  await Promise.all(workers);
+
+  cacheRunning = false;
+  applyCachedDom();
+  if (appMode === 'vote') { renderStage(); renderStarred(); }
+  else { renderDiyAll(); }
+
+  if (failed === 0) {
+    btn.className = 'cache-btn done';
+    btn.textContent = '已缓存 ✓';
+    fill.classList.add('done');
+    fill.style.width = '100%';
+    setTimeout(() => { fill.classList.remove('show'); }, 1200);
+  } else {
+    btn.className = 'cache-btn warn';
+    btn.textContent = `重试(${failed})`;
+    setTimeout(() => { fill.classList.remove('show'); }, 1200);
+  }
+}
+
+async function autoRestoreCache() {
+  const urls = getAllCacheUrls();
+  const btn = document.getElementById('cacheBtn');
+  if (!urls.length) {
+    btn.className = 'cache-btn done';
+    btn.textContent = '已离线缓存 ✓';
+    return;
+  }
+  if (!('caches' in window)) return;
+  try {
+    const cacheObj = await caches.open(CACHE_NAME);
+    let hits = 0;
+    await Promise.all(urls.map(async u => {
+      const m = await cacheObj.match(u);
+      if (m) {
+        const blob = await m.blob();
+        blobCache.set(u, URL.createObjectURL(blob));
+        hits++;
+      }
+    }));
+    if (hits > 0) {
+      applyCachedDom();
+      renderStage();
+      renderStarred();
+    }
+    if (hits === urls.length) {
+      btn.className = 'cache-btn done';
+      btn.textContent = '已缓存 ✓';
+    }
+  } catch (_) {}
+}
+
 initDiyDefault();
 renderStage();
 renderStarred();
+autoRestoreCache();
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<title>01 — 10</title>
+<title>选款 · lxy3312</title>
 <style>
   :root {
     --bg: #f5f3ef;
@@ -226,12 +226,11 @@
     margin-bottom: 20px;
   }
   .num {
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: 56px;
-    font-weight: 300;
-    line-height: 0.86;
-    letter-spacing: 0.01em;
-    font-variant-numeric: tabular-nums;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Serif SC", "Songti SC", "Microsoft YaHei", sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: 0.08em;
     color: var(--ink);
     transition: color 0.2s ease;
   }
@@ -367,7 +366,7 @@
   .mini-card { cursor: pointer; transition: transform 0.2s ease; }
   .mini-card:hover { transform: translateY(-2px); }
   .mini-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .mini-num { font-family: "Georgia", "Times New Roman", serif; font-size: 24px; font-weight: 300; }
+  .mini-num { font-size: 17px; font-weight: 500; letter-spacing: 0.06em; }
   .mini-rm { background: none; border: none; color: var(--gold); font-size: 17px; cursor: pointer; padding: 2px 6px; }
   .mini-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .mini-imgs img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; border-radius: 3px; background: var(--studio); }
@@ -601,7 +600,7 @@
   }
   .lb.detail-mode .lb-top { background: rgba(255, 255, 255, 0.90); }
   .lb-left { display: flex; align-items: center; gap: 12px; }
-  .lb-id { font-family: "Georgia", "Times New Roman", serif; font-size: 22px; }
+  .lb-id { font-size: 18px; font-weight: 600; letter-spacing: 0.06em; }
   .lb-seg {
     display: inline-flex; background: rgba(23, 23, 21, 0.06);
     padding: 3px; border-radius: 999px; gap: 2px;
@@ -933,15 +932,15 @@
   }
 
   @media (max-width: 760px) {
-    .topbar-inner { padding: 10px 14px; grid-template-columns: auto 1fr auto; gap: 6px; }
-    .mode-tab { height: 26px; padding: 0 9px; font-size: 11px; }
-    .step-pill { height: 26px; padding: 0 7px; font-size: 11px; }
-    .ghost-btn { height: 26px; padding: 0 9px; font-size: 11px; }
+    .topbar-inner { padding: 9px 10px; display: flex; align-items: center; justify-content: space-between; gap: 5px; flex-wrap: nowrap; }
+    .mode-tab { height: 26px; padding: 0 8px; font-size: 11px; letter-spacing: 0.02em; }
+    .step-pill { height: 24px; padding: 0 5.5px; font-size: 10.5px; }
+    .ghost-btn { height: 26px; padding: 0 8px; font-size: 11px; }
     .star-counter-btn { height: 26px; padding: 0 8px; font-size: 11px; }
-    .cache-btn { height: 32px; padding: 0 13px; font-size: 12px; }
+    .cache-btn { height: 28px; padding: 0 9px; font-size: 11px; }
     .stage { padding: 22px 14px 8px; }
     .card { padding-bottom: 28px; margin-bottom: 28px; }
-    .num { font-size: 40px; }
+    .num { font-size: 25px; }
     .card-head { margin-bottom: 13px; }
     .star-btn { width: 40px; height: 40px; }
     .remix-btn { height: 30px; padding: 0 10px; font-size: 11px; }
@@ -964,7 +963,7 @@
   <div class="topbar-inner">
     <div class="brand-row">
       <div class="mode-tabs">
-        <button class="mode-tab active" id="tabVote" onclick="switchApp('vote')">01—10</button>
+        <button class="mode-tab active" id="tabVote" onclick="switchApp('vote')">选款</button>
         <button class="mode-tab" id="tabDiy" onclick="switchApp('diy')">DIY 拼装</button>
       </div>
     </div>
@@ -998,7 +997,7 @@
       </div>
       <div class="starred-actions">
         <button class="ghost-btn" id="onlyStarBtn" onclick="toggleOnlyStarred()" style="display:none;">仅看已收藏</button>
-        <button class="copy-btn" id="copyBtn" onclick="copyStarred()" disabled>复制编号</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyStarred()" disabled>复制已选</button>
       </div>
     </div>
     <div id="starredBody"></div>
@@ -1084,7 +1083,7 @@
 <div class="lb" id="lb">
   <div class="lb-top">
     <div class="lb-left">
-      <span class="lb-id" id="lbId">01</span>
+      <span class="lb-id" id="lbId">苹果</span>
       <div class="lb-seg">
         <button id="lbFrontBtn" onclick="setLbSide('front')">FRONT</button>
         <button id="lbBackBtn" onclick="setLbSide('back')">BACK</button>
@@ -1154,16 +1153,16 @@
 
 <script>
 const ITEMS = [
-  { id: "01", front: "vote-img/front_base.webp?v=6", back: "vote-img/01_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_01_b.webp?v=6" },
-  { id: "02", front: "vote-img/02_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_02_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
-  { id: "03", front: "vote-img/front_base.webp?v=6", back: "vote-img/03_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_03_b.webp?v=6" },
-  { id: "04", front: "vote-img/front_base.webp?v=6", back: "vote-img/04_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_04_b.webp?v=6" },
-  { id: "05", front: "vote-img/front_base.webp?v=6", back: "vote-img/05_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_05_b.webp?v=6" },
-  { id: "06", front: "vote-img/06_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_06_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
-  { id: "07", front: "vote-img/07_f.webp?v=6", back: "vote-img/06_b.webp?v=6", frontDetail: "vote-img/d_07_f.webp?v=6", backDetail: "vote-img/d_06_b.webp?v=6" },
-  { id: "08", front: "vote-img/08_f.webp?v=6", back: "vote-img/08_b.webp?v=6", frontDetail: "vote-img/d_08_b.webp?v=6", backDetail: "vote-img/d_08_f.webp?v=6" },
-  { id: "09", front: "vote-img/front_base.webp?v=6", back: "vote-img/09_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_09_b.webp?v=6" },
-  { id: "10", front: "vote-img/10_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_10_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" }
+  { id: "01", name: "苹果", front: "vote-img/front_base.webp?v=6", back: "vote-img/01_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_01_b.webp?v=6" },
+  { id: "02", name: "香蕉", front: "vote-img/02_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_02_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
+  { id: "03", name: "凤梨", front: "vote-img/front_base.webp?v=6", back: "vote-img/03_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_03_b.webp?v=6" },
+  { id: "04", name: "猕猴桃", front: "vote-img/front_base.webp?v=6", back: "vote-img/04_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_04_b.webp?v=6" },
+  { id: "05", name: "桃子", front: "vote-img/front_base.webp?v=6", back: "vote-img/05_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_05_b.webp?v=6" },
+  { id: "06", name: "青提", front: "vote-img/06_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_06_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
+  { id: "07", name: "草莓", front: "vote-img/07_f.webp?v=6", back: "vote-img/06_b.webp?v=6", frontDetail: "vote-img/d_07_f.webp?v=6", backDetail: "vote-img/d_06_b.webp?v=6" },
+  { id: "08", name: "芒果", front: "vote-img/08_f.webp?v=6", back: "vote-img/08_b.webp?v=6", frontDetail: "vote-img/d_08_b.webp?v=6", backDetail: "vote-img/d_08_f.webp?v=6" },
+  { id: "09", name: "西瓜", front: "vote-img/front_base.webp?v=6", back: "vote-img/09_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_09_b.webp?v=6" },
+  { id: "10", name: "樱桃", front: "vote-img/10_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_10_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" }
 ];
 
 const BLANK = {
@@ -1236,9 +1235,9 @@ function renderSteps() {
     return;
   }
   el.style.visibility = 'visible';
-  const labels = ['01–02', '03–04', '05–06', '07–08', '09–10'];
+  const labels = ['苹果·香蕉', '凤梨·猕猴桃', '桃子·青提', '草莓·芒果', '西瓜·樱桃'];
   const shortLabels = ['1', '2', '3', '4', '5'];
-  const mobile = window.innerWidth <= 760;
+  const mobile = window.innerWidth <= 980;
   el.innerHTML = [0,1,2,3,4].map(i => {
     const pairIds = [ITEMS[i*2].id, ITEMS[i*2+1].id];
     const hasStar = pairIds.some(id => starred.has(id));
@@ -1251,7 +1250,7 @@ function cardHTML(item, popId) {
   return `
     <article class="card ${isStar ? 'starred' : ''}" id="card-${item.id}">
       <div class="card-head">
-        <div class="num">${item.id}</div>
+        <div class="num">${item.name}</div>
         <div class="card-tools">
           <button class="remix-btn" onclick="remixToDiy('${item.id}')">拿去 DIY</button>
           <button class="star-btn ${isStar ? 'on' : ''} ${popId === item.id ? 'pop' : ''}" aria-label="Star ${item.id}" onclick="toggleStar('${item.id}')">
@@ -1325,7 +1324,7 @@ function renderStarred() {
   body.innerHTML = `<div class="starred-grid">` + list.map(item => `
     <div class="mini-card" onclick="openLb('${item.id}', 'back')">
       <div class="mini-top">
-        <span class="mini-num">${item.id}</span>
+        <span class="mini-num">${item.name}</span>
         <button class="mini-rm" title="取消收藏" onclick="event.stopPropagation(); toggleStar('${item.id}')">★</button>
       </div>
       <div class="mini-imgs">
@@ -1337,7 +1336,7 @@ function renderStarred() {
 
   dock.style.display = 'flex';
   document.getElementById('dockNums').innerHTML = list.map(item =>
-    `<span class="dock-pill" onclick="jumpToItem('${item.id}')">${item.id}</span>`
+    `<span class="dock-pill" onclick="jumpToItem('${item.id}')">${item.name}</span>`
   ).join('');
 }
 
@@ -1382,14 +1381,14 @@ function toggleOnlyStarred() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function copyStarred() {
-  const ids = ITEMS.filter(x => starred.has(x.id)).map(x => x.id);
+  const ids = ITEMS.filter(x => starred.has(x.id)).map(x => x.name);
   if (!ids.length) return;
   const text = '★ ' + ids.join('、');
   navigator.clipboard.writeText(text).then(() => {
     const b1 = document.getElementById('copyBtn');
     const b2 = document.getElementById('dockCopyBtn');
     b1.textContent = '已复制'; b2.textContent = '已复制';
-    setTimeout(() => { b1.textContent = '复制编号'; b2.textContent = '复制'; }, 1400);
+    setTimeout(() => { b1.textContent = '复制已选'; b2.textContent = '复制'; }, 1400);
   }).catch(() => alert(text));
 }
 
@@ -1472,7 +1471,7 @@ function preloadUrl(u) {
 function syncLbUI() {
   const item = ITEMS.find(x => x.id === lbItemId);
   if (!item) return;
-  document.getElementById('lbId').textContent = item.id;
+  document.getElementById('lbId').textContent = item.name;
   document.getElementById('lbFrontBtn').classList.toggle('active', lbSide === 'front');
   document.getElementById('lbBackBtn').classList.toggle('active', lbSide === 'back');
   document.getElementById('viewTeeBtn').classList.toggle('active', !lbDetail);

@@ -755,6 +755,52 @@
     .z-btn { width: 30px; height: 30px; font-size: 16px; }
     .view-pill button { padding: 0 10px; font-size: 11px; }
   }
+  /* ===== Lookbook refinement (borderless editorial) ===== */
+  :root { --bg: #f5f3ef; --studio: #eae8e3; }
+  body { background: var(--bg); }
+  .topbar { background: rgba(245, 243, 239, 0.86); }
+  .stage { max-width: 1180px; padding-top: 44px; }
+  .pair-grid { gap: 0; }
+  .card, .card:hover, .card.starred {
+    background: transparent; border: none; border-radius: 0; box-shadow: none;
+    padding: 0 0 52px; margin-bottom: 52px; border-bottom: 1px solid var(--line);
+  }
+  .card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 12px; }
+  .card-head { margin-bottom: 22px; align-items: flex-end; padding: 0; }
+  .num { font-size: 60px; font-weight: 300; line-height: 0.85; letter-spacing: 0.01em; }
+  .card.starred .num { color: var(--gold); }
+  .star-btn { width: 48px; height: 48px; background: transparent; }
+  .tee-pair { gap: 20px; }
+  .tee-fig { margin: 0; }
+  .tee-box { border-radius: 3px; background: var(--studio); }
+  .tee-box img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+  .tee-box:hover img { transform: scale(1.025); }
+  .tee-fig figcaption {
+    margin-top: 11px; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted);
+  }
+  .pager { margin-top: 4px; }
+  .nav-btn { height: 46px; padding: 0 26px; }
+  .starred-section { max-width: 1180px; margin-top: 60px; }
+  .starred-title { font-size: 12px; letter-spacing: 0.2em; color: var(--ink-soft); }
+  .starred-empty { padding: 6px 0 28px; font-size: 12px; }
+  .copy-btn:disabled { display: none; }
+  .mini-card, .mini-card:hover { border: none; background: transparent; padding: 0; box-shadow: none; }
+  .mini-card:hover { transform: translateY(-2px); }
+  .mini-num { font-size: 24px; font-weight: 300; }
+  .mini-imgs img { border-radius: 3px; }
+  .lb { background: var(--studio); }
+  .lb-top { background: rgba(234, 232, 227, 0.88); }
+  .lb-canvas img { border-radius: 0; }
+  @media (max-width: 760px) {
+    .stage { padding: 24px 16px 8px; }
+    .card, .card:hover, .card.starred { padding-bottom: 30px; margin-bottom: 30px; }
+    .num { font-size: 42px; }
+    .card-head { margin-bottom: 14px; }
+    .star-btn { width: 42px; height: 42px; }
+    .tee-pair { gap: 8px; }
+    .tee-fig figcaption { margin-top: 7px; font-size: 9px; letter-spacing: 0.2em; }
+    .starred-section { padding: 24px 16px 0; margin-top: 36px; }
+  }
 </style>
 </head>
 <body>
@@ -891,16 +937,20 @@ function cardHTML(item, popId) {
         </button>
       </div>
       <div class="tee-pair">
-        <div class="tee-box" onclick="openLb('${item.id}', 'front')">
-          <img src="${item.front}" alt="${item.id} front" loading="eager" />
-          <span class="side-tag">FRONT</span>
-          <span class="zoom-hint">${ZOOM_SVG}</span>
-        </div>
-        <div class="tee-box" onclick="openLb('${item.id}', 'back')">
-          <img src="${item.back}" alt="${item.id} back" loading="eager" />
-          <span class="side-tag">BACK</span>
-          <span class="zoom-hint">${ZOOM_SVG}</span>
-        </div>
+        <figure class="tee-fig">
+          <div class="tee-box" onclick="openLb('${item.id}', 'front')">
+            <img src="${item.front}" alt="${item.id} front" loading="eager" />
+            <span class="zoom-hint">${ZOOM_SVG}</span>
+          </div>
+          <figcaption>Front</figcaption>
+        </figure>
+        <figure class="tee-fig">
+          <div class="tee-box" onclick="openLb('${item.id}', 'back')">
+            <img src="${item.back}" alt="${item.id} back" loading="eager" />
+            <span class="zoom-hint">${ZOOM_SVG}</span>
+          </div>
+          <figcaption>Back</figcaption>
+        </figure>
       </div>
     </article>
   `;

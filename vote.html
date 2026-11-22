@@ -716,8 +716,9 @@
   }
   .cm-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
+    z-index: 15;
+    top: 10px;
+    right: 10px;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -1106,92 +1107,8 @@
   <div class="cm-card" id="cmCard">
     <button class="cm-close" onclick="dismissCacheModal()" title="关闭">✕</button>
 
-    <div class="cm-scene-wrap">
-      <svg class="cm-scene" id="cmScene" viewBox="0 0 320 205" xmlns="http://www.w3.org/2000/svg">
-        <!-- Soft distant clouds -->
-        <g fill="#ffffff" opacity="0.7">
-          <ellipse cx="66" cy="40" rx="22" ry="7" />
-          <ellipse cx="82" cy="38" rx="14" ry="5.5" />
-          <ellipse cx="164" cy="28" rx="18" ry="5.5" />
-        </g>
-
-        <!-- Sculptural Rock Cliff (Sloping Bottom-Left to Summit Peak Top-Right) -->
-        <path d="M0 198 L26 184 L68 164 L112 135 L154 108 L194 78 L234 55 L260 48 L320 50 L320 205 L0 205 Z" fill="#e2dfd7" />
-        <path d="M58 205 L108 156 L154 126 L202 92 L248 64 L320 62 L320 205 Z" fill="#d6d2c7" />
-        <path d="M138 205 L186 154 L236 112 L286 84 L320 82 L320 205 Z" fill="#cac5b8" />
-        <!-- Crisp architectural rock facet lines -->
-        <path d="M26 184 L68 164 L112 135 L154 108 L194 78 L234 55 L260 48 L320 50" fill="none" stroke="#9e998c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M112 135 L130 162 M194 78 L216 106 M234 55 L254 88" fill="none" stroke="#b6b1a4" stroke-width="1" stroke-linecap="round" />
-
-        <!-- Climbing Holds along the cliff route -->
-        <g fill="#a9a395" stroke="#7c776b" stroke-width="0.9">
-          <ellipse cx="78" cy="161" rx="6" ry="2.6" transform="rotate(-24 78 161)" />
-          <ellipse cx="118" cy="133" rx="6.5" ry="2.7" transform="rotate(-28 118 133)" />
-          <ellipse cx="158" cy="107" rx="6" ry="2.6" transform="rotate(-30 158 107)" />
-          <ellipse cx="198" cy="79" rx="6.5" ry="2.7" transform="rotate(-28 198 79)" />
-          <ellipse cx="236" cy="57" rx="6" ry="2.5" transform="rotate(-18 236 57)" />
-        </g>
-
-        <!-- Climbing Route Dashed Track & Active Progress Line -->
-        <path id="climbTrackBg" d="M 42 178 Q 108 136 156 104 T 250 48" fill="none" stroke="rgba(23,23,21,0.16)" stroke-width="2.2" stroke-dasharray="4 4" stroke-linecap="round" />
-        <path id="climbTrackFill" d="M 42 178 Q 108 136 156 104 T 250 48" fill="none" stroke="#2f7d3a" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="260" stroke-dashoffset="260" />
-
-        <!-- Subtle Emerald Rice Grass Tufts (Base & Summit) -->
-        <g class="cm-grass" stroke="#2d7a36" stroke-width="1.4" fill="none" stroke-linecap="round">
-          <path d="M14 192 Q10 180 6 172" />
-          <path d="M18 191 Q17 177 20 168" />
-          <path d="M22 190 Q26 180 30 174" />
-        </g>
-        <g class="cm-grass" stroke="#2d7a36" stroke-width="1.35" fill="none" stroke-linecap="round">
-          <path d="M286 50 Q283 38 279 31" />
-          <path d="M291 50 Q292 36 296 28" />
-          <path d="M296 50 Q301 40 305 34" />
-        </g>
-
-        <!-- Summit Goal Star -->
-        <circle id="summitRing" cx="280" cy="31" r="10" fill="none" stroke="#d49b1a" stroke-width="1.6" />
-        <g id="summitStar">
-          <polygon points="280,19 283.2,26.4 291.2,27.1 285.1,32.3 286.9,40.1 280,35.9 273.1,40.1 274.9,32.3 268.8,27.1 276.8,26.4" fill="#d49b1a" stroke="#b37f0d" stroke-width="0.9" stroke-linejoin="round" />
-        </g>
-
-        <!-- Cute Minimalist Ink Climbing Cat -->
-        <g id="catGroup" transform="translate(42, 174) rotate(-26)">
-          <!-- Tiny chalk dust puffs while climbing -->
-          <g id="catDust" fill="#ffffff" opacity="0.85">
-            <circle cx="-11" cy="10" r="2.2" />
-            <circle cx="-16" cy="14" r="1.5" />
-          </g>
-          <g id="catBodyBob">
-            <!-- Swishing Tail -->
-            <path id="catTail" d="M -8 4 C -17 6, -21 -2, -16 -9 C -14 -12, -10 -11, -11 -8" fill="none" stroke="#1e1e1c" stroke-width="2.8" stroke-linecap="round" />
-            <!-- Back Legs -->
-            <path id="catLegL" d="M -4 6 L -8 13 L -4 14" fill="none" stroke="#1e1e1c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
-            <path id="catLegR" d="M 2 7 L 0 14 L 4 14" fill="none" stroke="#1e1e1c" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- Body -->
-            <ellipse cx="0" cy="2" rx="10" ry="6.8" fill="#1e1e1c" />
-            <!-- Soft Cream Belly Patch -->
-            <ellipse cx="1.5" cy="4.2" rx="5.5" ry="3.2" fill="#f5f3ef" />
-            <!-- Front Climbing Paws -->
-            <path id="catPawL" d="M 6 -3 L 13 -9 L 15 -7" fill="none" stroke="#1e1e1c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path id="catPawR" d="M 8 2 L 15 -2 L 17 0" fill="none" stroke="#1e1e1c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            <!-- Head -->
-            <circle cx="9.5" cy="-5.5" r="6.4" fill="#1e1e1c" />
-            <!-- Pointed Cat Ears -->
-            <polygon points="5.2,-10 3.8,-16.2 9.2,-11.6" fill="#1e1e1c" />
-            <polygon points="10.2,-11.5 13.8,-16.2 14.8,-9.6" fill="#1e1e1c" />
-            <!-- Inner Ear Accent -->
-            <polygon points="5.8,-10.8 5.2,-14.1 8.1,-11.6" fill="#e6a4a4" />
-            <polygon points="11.2,-11.4 13.2,-14.1 13.8,-10.4" fill="#e6a4a4" />
-            <!-- Bright Eyes Looking Up -->
-            <circle cx="11.4" cy="-6.8" r="1.25" fill="#ffffff" />
-            <circle cx="14.2" cy="-5.8" r="1.15" fill="#ffffff" />
-            <circle cx="11.8" cy="-7.0" r="0.55" fill="#171715" />
-            <circle cx="14.5" cy="-6.0" r="0.55" fill="#171715" />
-            <!-- Little Nose -->
-            <circle cx="14.3" cy="-3.8" r="0.85" fill="#f2a7a7" />
-          </g>
-        </g>
-      </svg>
+    <div class="cm-scene-wrap" style="position:relative;cursor:pointer;" onclick="pokeKitten()">
+      <canvas class="cm-scene" id="catCanvas" width="720" height="440"></canvas>
     </div>
 
     <h3 class="cm-title" id="cmTitle">先缓存高清图，浏览更流畅</h3>
@@ -2168,35 +2085,691 @@ async function fetchOneWithCache(url, cacheObj, retries = 2) {
 }
 
 
+
 // =========================================================================
-// Climbing Cat Modal UI + Progress Synchronization
+// Storybook Chubby Climbing Kitten Canvas Engine (60 FPS, Retina HiDPI)
 // =========================================================================
 let cmState = 'prompt'; // 'prompt' | 'running' | 'done' | 'warn'
 let cmDismissed = false;
+let catTargetPct = 0;
+let catSmoothPct = 0;
+let catAnimRaf = null;
+let catTime = 0;
+let catLastTs = 0;
+let catPokeBoost = 0;
+const catParticles = [];
+
+// Cute pastel bouldering holds along the hillside slope
+const CLIFF_HOLDS = [
+  { t: 0.14, dx: 6,  dy: 10, c: '#eab09a', r: 5.5 },
+  { t: 0.28, dx: 14, dy: 8,  c: '#ebd07e', r: 6.0 },
+  { t: 0.43, dx: 8,  dy: 12, c: '#9ec492', r: 5.8 },
+  { t: 0.58, dx: 15, dy: 9,  c: '#9dc2d6', r: 6.2 },
+  { t: 0.74, dx: 9,  dy: 11, c: '#eab09a', r: 5.6 },
+  { t: 0.88, dx: 13, dy: 8,  c: '#ebd07e', r: 5.8 },
+];
+
+function cliffPoint(t) {
+  // Smooth organic hillside slope from bottom-left (52, 186) to mossy summit (266, 66)
+  const u = Math.max(0, Math.min(1, t));
+  const inv = 1 - u;
+  const x = inv * inv * 52 + 2 * inv * u * 164 + u * u * 264;
+  const y = inv * inv * 184 + 2 * inv * u * 116 + u * u * 66;
+  const dx = 2 * inv * (164 - 52) + 2 * u * (264 - 164);
+  const dy = 2 * inv * (116 - 184) + 2 * u * (66 - 116);
+  return { x, y, angle: Math.atan2(dy, dx) };
+}
+
+function spawnCatParticle(kind, x, y) {
+  catParticles.push({
+    kind, x, y,
+    vx: (Math.random() - 0.5) * (kind === 'dust' ? 18 : 26),
+    vy: kind === 'dust' ? (4 + Math.random() * 14) : (-22 - Math.random() * 24),
+    life: 0,
+    maxLife: kind === 'dust' ? 0.65 : 1.15,
+    size: kind === 'dust' ? (2.5 + Math.random() * 2.5) : (5 + Math.random() * 3.5),
+    rot: (Math.random() - 0.5) * 0.6
+  });
+}
+
+function pokeKitten() {
+  catPokeBoost = 1.0;
+  const p = cliffPoint(catSmoothPct);
+  const kx = catSmoothPct >= 0.99 ? 268 : p.x;
+  const ky = catSmoothPct >= 0.99 ? 46 : (p.y - 16);
+  spawnCatParticle('heart', kx - 6, ky - 22);
+  spawnCatParticle('heart', kx + 12, ky - 26);
+  spawnCatParticle('sparkle', kx + 2, ky - 30);
+}
+
+function drawHeart(ctx, x, y, s, alpha) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s / 10, s / 10);
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = '#f28b94';
+  ctx.beginPath();
+  ctx.moveTo(0, 3);
+  ctx.bezierCurveTo(0, -1.5, -6, -4.5, -6, 0.5);
+  ctx.bezierCurveTo(-6, 4.5, 0, 7.5, 0, 10);
+  ctx.bezierCurveTo(0, 7.5, 6, 4.5, 6, 0.5);
+  ctx.bezierCurveTo(6, -4.5, 0, -1.5, 0, 3);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawFourPointStar(ctx, x, y, r, color, alpha) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const rad = i % 2 === 0 ? r : r * 0.36;
+    const a = (i * Math.PI) / 4;
+    if (i === 0) ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+    else ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawRoundedStar(ctx, cx, cy, outerR, innerR, rot) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rot);
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? outerR : innerR;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    const px = Math.cos(a) * r, py = Math.sin(a) * r;
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.fillStyle = '#f6c343';
+  ctx.fill();
+  ctx.lineWidth = 2.1;
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#9c6e18';
+  ctx.stroke();
+  // Cute specular dot on star
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.beginPath();
+  ctx.ellipse(-outerR * 0.2, -outerR * 0.25, outerR * 0.18, outerR * 0.1, -0.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawCloud(ctx, x, y, scale) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+  ctx.beginPath();
+  ctx.arc(0, 0, 12, 0, Math.PI * 2);
+  ctx.arc(13, -4, 15, 0, Math.PI * 2);
+  ctx.arc(28, 0, 11, 0, Math.PI * 2);
+  ctx.arc(14, 4, 13, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawKitten(ctx, x, y, angle, mode, time, poke) {
+  const INK = '#4a3b32';
+  const FUR = '#fffdf8';
+  const PATCH = '#efb072';
+  const BLUSH = 'rgba(245, 148, 152, 0.56)';
+  const PINK = '#f5a5ac';
+  const SCARF = '#569f61';
+
+  const isClimb = (mode === 'climbing');
+  const isSummit = (mode === 'summit');
+
+  const phase = time * (isClimb ? 9.5 : 3.2);
+  const bobY = isClimb ? Math.sin(phase * 2) * 2.2 : (isSummit ? -Math.abs(Math.sin(time * 5.2)) * 6.0 : Math.sin(time * 2.4) * 1.1);
+  const pokeJump = poke > 0 ? -Math.sin(poke * Math.PI) * 10 : 0;
+  const sqX = 1 + (isSummit ? Math.cos(time * 10.4) * 0.04 : (isClimb ? Math.sin(phase * 2) * 0.03 : 0));
+  const sqY = 1 / sqX;
+
+  // Natural blinking every ~3.2s
+  const blinkCycle = time % 3.2;
+  const isBlinking = !isSummit && blinkCycle > 3.04;
+
+  ctx.save();
+  ctx.translate(x, y + bobY + pokeJump);
+  ctx.rotate(angle);
+  ctx.scale(sqX * 1.16, sqY * 1.16);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // Soft shadow directly under kitten
+  ctx.fillStyle = 'rgba(74, 59, 50, 0.12)';
+  ctx.beginPath();
+  ctx.ellipse(0, 21 - pokeJump * 0.35, 17, 5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 1. Plush Swishing Tail (drawn behind body)
+  const tailWag = Math.sin(time * (isClimb ? 8.5 : 3.4)) * (isClimb ? 0.34 : 0.22);
+  ctx.save();
+  ctx.translate(-11, 10);
+  ctx.rotate(tailWag);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(-15, 2, -23, -10, -14, -19);
+  ctx.lineWidth = 8.4;
+  ctx.strokeStyle = INK;
+  ctx.stroke();
+  ctx.lineWidth = 4.6;
+  ctx.strokeStyle = FUR;
+  ctx.stroke();
+  // Cute ginger tail tip
+  ctx.beginPath();
+  ctx.moveTo(-17, -14);
+  ctx.quadraticCurveTo(-16, -17, -14, -19);
+  ctx.lineWidth = 4.6;
+  ctx.strokeStyle = PATCH;
+  ctx.stroke();
+  ctx.restore();
+
+  // 2. Chubby Back Paws
+  const kickL = isClimb ? Math.sin(phase) * 4.5 : 0;
+  const kickR = isClimb ? -Math.sin(phase) * 4.5 : 0;
+  function drawPaw(px, py, rot, showBeans) {
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(rot);
+    ctx.fillStyle = FUR;
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 2.1;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 6.2, 4.6, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    if (showBeans) {
+      ctx.fillStyle = PINK;
+      ctx.beginPath();
+      ctx.ellipse(0, 0.7, 2.2, 1.5, 0, 0, Math.PI * 2);
+      ctx.arc(-2.1, -1.2, 0.95, 0, Math.PI * 2);
+      ctx.arc(0, -1.7, 0.95, 0, Math.PI * 2);
+      ctx.arc(2.1, -1.2, 0.95, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+  drawPaw(-8, 16 + kickL, isClimb ? 0.35 : 0.1, isClimb);
+  drawPaw(8, 16 + kickR, isClimb ? -0.35 : -0.1, isClimb);
+
+  // 3. Chubby Marshmallow Pear Body
+  ctx.fillStyle = FUR;
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 2.3;
+  ctx.beginPath();
+  ctx.moveTo(-13, 3);
+  ctx.bezierCurveTo(-16, 17, -9, 20, 0, 20);
+  ctx.bezierCurveTo(9, 20, 16, 17, 13, 3);
+  ctx.bezierCurveTo(11, -5, -11, -5, -13, 3);
+  ctx.closePath();
+  ctx.fill();
+  // Soft warm ginger patch on side of tummy
+  ctx.save();
+  ctx.clip();
+  ctx.fillStyle = PATCH;
+  ctx.beginPath();
+  ctx.ellipse(-10, 10, 7.5, 8.5, 0.25, 0, Math.PI * 2);
+  ctx.fill();
+  // Cream belly highlight
+  ctx.fillStyle = '#fff9ee';
+  ctx.beginPath();
+  ctx.ellipse(2, 12, 7.5, 6.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+  // Redraw crisp body outline
+  ctx.beginPath();
+  ctx.moveTo(-13, 3);
+  ctx.bezierCurveTo(-16, 17, -9, 20, 0, 20);
+  ctx.bezierCurveTo(9, 20, 16, 17, 13, 3);
+  ctx.bezierCurveTo(11, -5, -11, -5, -13, 3);
+  ctx.closePath();
+  ctx.stroke();
+
+  // Cute Little Emerald Neckerchief Scarf (matches the green tee!)
+  ctx.fillStyle = SCARF;
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 1.9;
+  ctx.beginPath();
+  ctx.moveTo(-11, 0);
+  ctx.quadraticCurveTo(0, 5.5, 11, 0);
+  ctx.quadraticCurveTo(5, 9.5, 0, 10);
+  ctx.quadraticCurveTo(-5, 9.5, -11, 0);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  // Little floating scarf tail
+  const scarfFlutter = Math.sin(time * 6) * 1.6;
+  ctx.beginPath();
+  ctx.moveTo(-8, 2.5);
+  ctx.quadraticCurveTo(-15, 5 + scarfFlutter, -14, 9.5 + scarfFlutter);
+  ctx.quadraticCurveTo(-10, 8 + scarfFlutter, -6, 4.5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // 4. Big Chubby Kawaii Head (oversized chibi ratio!)
+  const headTilt = isClimb ? Math.sin(phase) * 0.08 : (isSummit ? Math.sin(time * 5.2) * 0.07 : Math.sin(time * 1.8) * 0.04);
+  ctx.save();
+  ctx.translate(0, -12);
+  ctx.rotate(headTilt);
+
+  // Left & Right Soft Rounded Ears
+  function drawEar(side) {
+    ctx.save();
+    ctx.scale(side, 1);
+    ctx.beginPath();
+    ctx.moveTo(-16, -6);
+    ctx.quadraticCurveTo(-19.5, -22, -12.5, -21);
+    ctx.quadraticCurveTo(-5, -19.5, -4, -14);
+    ctx.closePath();
+    ctx.fillStyle = side < 0 ? PATCH : FUR;
+    ctx.fill();
+    ctx.lineWidth = 2.3;
+    ctx.strokeStyle = INK;
+    ctx.stroke();
+    // Soft pink inner ear
+    ctx.beginPath();
+    ctx.moveTo(-14.2, -9);
+    ctx.quadraticCurveTo(-16.2, -17.5, -12.2, -17.2);
+    ctx.quadraticCurveTo(-8.2, -16.5, -7.8, -12.5);
+    ctx.closePath();
+    ctx.fillStyle = PINK;
+    ctx.fill();
+    ctx.restore();
+  }
+  drawEar(1);   // Left ear (cream)
+  drawEar(-1);  // Right ear (caramel calico patch!)
+
+  // Chubby Squishy Head Contour (wider cheeks like Chiikawa/Neko Atsume!)
+  function traceHeadPath() {
+    ctx.beginPath();
+    ctx.moveTo(0, -16);
+    ctx.bezierCurveTo(14, -16, 20.5, -7, 20.5, 2.5);
+    ctx.bezierCurveTo(20.5, 11.5, 12.5, 15.5, 0, 15.5);
+    ctx.bezierCurveTo(-12.5, 15.5, -20.5, 11.5, -20.5, 2.5);
+    ctx.bezierCurveTo(-20.5, -7, -14, -16, 0, -16);
+    ctx.closePath();
+  }
+  traceHeadPath();
+  ctx.fillStyle = FUR;
+  ctx.fill();
+
+  // Soft caramel patch on top-right forehead clipped cleanly inside head
+  ctx.save();
+  traceHeadPath();
+  ctx.clip();
+  ctx.fillStyle = PATCH;
+  ctx.beginPath();
+  ctx.ellipse(13, -12, 11, 8.5, 0.3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Crisp head outline (properly retraced!)
+  traceHeadPath();
+  ctx.lineWidth = 2.3;
+  ctx.strokeStyle = INK;
+  ctx.stroke();
+
+  // Tiny delicate forehead tabby stripes
+  ctx.strokeStyle = '#c8834a';
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(-2.5, -13.5); ctx.lineTo(-2.5, -10.5);
+  ctx.moveTo(0.8, -14);    ctx.lineTo(0.8, -10.2);
+  ctx.moveTo(4.0, -13.2);  ctx.lineTo(3.8, -10.4);
+  ctx.stroke();
+
+  // Rosy Peach Blush Cheeks
+  ctx.fillStyle = BLUSH;
+  ctx.beginPath();
+  ctx.ellipse(-11.8, 4.8, 4.3, 2.6, 0, 0, Math.PI * 2);
+  ctx.ellipse(11.8, 4.8, 4.3, 2.6, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Expressive Big Glossy Eyes (look slightly upward toward summit when idle/climbing!)
+  const lookY = isSummit ? 0 : -1.2;
+  const lookX = isSummit ? 0 : 1.0;
+  if (isSummit || poke > 0.25) {
+    // Super happy curved ^ ^ eyes!
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 2.3;
+    ctx.beginPath();
+    ctx.arc(-7.8, 1.8, 3.6, Math.PI * 1.12, Math.PI * 1.88);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(7.8, 1.8, 3.6, Math.PI * 1.12, Math.PI * 1.88);
+    ctx.stroke();
+  } else if (isBlinking) {
+    ctx.strokeStyle = INK;
+    ctx.lineWidth = 2.1;
+    ctx.beginPath();
+    ctx.moveTo(-10.8, 0.5); ctx.quadraticCurveTo(-7.8, 2.6, -4.8, 0.5);
+    ctx.moveTo(4.8, 0.5);   ctx.quadraticCurveTo(7.8, 2.6, 10.8, 0.5);
+    ctx.stroke();
+  } else {
+    [-7.8, 7.8].forEach(ex => {
+      ctx.fillStyle = '#31251f';
+      ctx.beginPath();
+      ctx.ellipse(ex, 0.2, 3.3, 3.7, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // Big main sparkle + tiny lower sparkle
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(ex - 1.0 + lookX * 0.4, -1.2 + lookY * 0.4, 1.35, 0, Math.PI * 2);
+      ctx.arc(ex + 1.1, 1.5, 0.65, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  // Tiny Pink Triangle Nose + Classic ":3" Kitty Mouth
+  ctx.fillStyle = '#ef8d94';
+  ctx.beginPath();
+  ctx.moveTo(-1.8, 2.4);
+  ctx.lineTo(1.8, 2.4);
+  ctx.lineTo(0, 4.3);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 1.7;
+  ctx.beginPath();
+  ctx.moveTo(-4.2, 5.4);
+  ctx.quadraticCurveTo(-2.1, 7.8, 0, 5.1);
+  ctx.quadraticCurveTo(2.1, 7.8, 4.2, 5.4);
+  ctx.stroke();
+  if (isSummit || poke > 0.25) {
+    // Tiny joyful open mouth!
+    ctx.fillStyle = '#f28b94';
+    ctx.beginPath();
+    ctx.arc(0, 6.8, 2.0, 0, Math.PI);
+    ctx.fill();
+  }
+
+  // Cute Little Whiskers
+  ctx.strokeStyle = 'rgba(74, 59, 50, 0.65)';
+  ctx.lineWidth = 1.25;
+  ctx.beginPath();
+  ctx.moveTo(-16.5, 2.0); ctx.lineTo(-22.5, 0.8);
+  ctx.moveTo(-16.5, 5.0); ctx.lineTo(-22.0, 5.8);
+  ctx.moveTo(16.5, 2.0);  ctx.lineTo(22.5, 0.8);
+  ctx.moveTo(16.5, 5.0);  ctx.lineTo(22.0, 5.8);
+  ctx.stroke();
+
+  // Cute little determination sweat-drop while actively climbing!
+  if (isClimb) {
+    const dropBob = (time * 2.2) % 1;
+    ctx.save();
+    ctx.globalAlpha = 1 - dropBob * 0.7;
+    ctx.fillStyle = '#8ecae6';
+    ctx.strokeStyle = '#4c88a8';
+    ctx.lineWidth = 1.1;
+    ctx.beginPath();
+    ctx.moveTo(-18, -9 + dropBob * 4);
+    ctx.quadraticCurveTo(-21, -4 + dropBob * 4, -18, -3 + dropBob * 4);
+    ctx.quadraticCurveTo(-15, -4 + dropBob * 4, -18, -9 + dropBob * 4);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  ctx.restore(); // end head
+
+  // 5. Chubby Front Mittens (drawn in front of body for maximum cuteness!)
+  if (isSummit || poke > 0.25) {
+    // Raising both little paws joyfully!
+    const wave = Math.sin(time * 11) * 0.22;
+    drawPaw(-14, 1, -0.75 + wave, true);
+    drawPaw(14, 1, 0.75 - wave, true);
+  } else if (isClimb) {
+    // Alternating climbing grab!
+    const reachL = Math.sin(phase) * 7.5;
+    const reachR = -Math.sin(phase) * 7.5;
+    drawPaw(-11, 3 - reachL, -0.45, true);
+    drawPaw(11, 3 - reachR, 0.45, true);
+  } else {
+    // Idle: cute resting front paws tucked in front
+    drawPaw(-7.5, 11, 0.15, false);
+    drawPaw(7.5, 11, -0.15, false);
+  }
+
+  ctx.restore();
+}
+
+function renderCatScene(ts) {
+  const bd = document.getElementById('cmBackdrop');
+  if (!bd || !bd.classList.contains('open')) {
+    catAnimRaf = null;
+    return;
+  }
+  if (!catLastTs) catLastTs = ts;
+  const dt = Math.min(0.05, (ts - catLastTs) / 1000);
+  catLastTs = ts;
+  catTime += dt;
+  if (catPokeBoost > 0) catPokeBoost = Math.max(0, catPokeBoost - dt * 2.2);
+
+  // Smooth spring chase toward real download progress
+  const prevPct = catSmoothPct;
+  catSmoothPct += (catTargetPct - catSmoothPct) * Math.min(1, dt * 8.5);
+  if (Math.abs(catTargetPct - catSmoothPct) < 0.002) catSmoothPct = catTargetPct;
+
+  const isClimbing = (cmState === 'running' && catSmoothPct < 0.995) || (catTargetPct - prevPct > 0.004);
+  const isSummit = (cmState === 'done' || catSmoothPct >= 0.992);
+
+  // Emit tiny dust puffs while climbing & floating hearts at summit!
+  if (isClimbing && Math.random() < dt * 7.5) {
+    const pt = cliffPoint(catSmoothPct);
+    spawnCatParticle('dust', pt.x - 10, pt.y + 4);
+  }
+  if (isSummit && Math.random() < dt * 2.6) {
+    spawnCatParticle(Math.random() < 0.55 ? 'heart' : 'sparkle', 268 + (Math.random() - 0.5) * 34, 28);
+  }
+
+  const canvas = document.getElementById('catCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = 360, H = 220;
+  ctx.save();
+  ctx.scale(2, 2); // crisp 2x internal HiDPI (720x440)
+
+  // 1. Warm Sunlit Pastel Sky
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#eaf3eb');
+  sky.addColorStop(0.62, '#f8f6ee');
+  sky.addColorStop(1, '#efeae0');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H);
+
+  // Soft warm sun glow behind summit
+  const sun = ctx.createRadialGradient(304, 38, 4, 304, 38, 76);
+  sun.addColorStop(0, 'rgba(255, 232, 166, 0.55)');
+  sun.addColorStop(1, 'rgba(255, 232, 166, 0)');
+  ctx.fillStyle = sun;
+  ctx.fillRect(210, 0, 150, 130);
+
+  // Drifting Fluffy Clouds
+  const c1x = ((44 + catTime * 4.5) % 410) - 40;
+  const c2x = ((176 + catTime * 3.0) % 410) - 40;
+  drawCloud(ctx, c1x, 42, 0.92);
+  drawCloud(ctx, c2x, 28, 0.72);
+
+  // Soft Distant Rolling Meadow Hills
+  ctx.fillStyle = '#dde7d8';
+  ctx.beginPath();
+  ctx.moveTo(0, 178);
+  ctx.quadraticCurveTo(85, 132, 190, 166);
+  ctx.quadraticCurveTo(280, 190, 360, 154);
+  ctx.lineTo(360, H); ctx.lineTo(0, H); ctx.closePath();
+  ctx.fill();
+
+  // 2. Cozy Illustrated Climbing Hill / Sandstone Cliff
+  ctx.beginPath();
+  ctx.moveTo(0, 200);
+  ctx.lineTo(44, 188);
+  ctx.quadraticCurveTo(164, 118, 264, 66);
+  ctx.quadraticCurveTo(295, 58, 360, 62);
+  ctx.lineTo(360, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  const rockGrad = ctx.createLinearGradient(80, 110, 320, 220);
+  rockGrad.addColorStop(0, '#ebe3d5');
+  rockGrad.addColorStop(0.55, '#dfd4c1');
+  rockGrad.addColorStop(1, '#d3c6b0');
+  ctx.fillStyle = rockGrad;
+  ctx.fill();
+
+  // Warm layered rock facet shadow
+  ctx.fillStyle = 'rgba(148, 131, 108, 0.16)';
+  ctx.beginPath();
+  ctx.moveTo(95, H);
+  ctx.quadraticCurveTo(195, 146, 286, 86);
+  ctx.lineTo(360, 86);
+  ctx.lineTo(360, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Soft hand-drawn hillside contour line
+  ctx.strokeStyle = '#9e8f7b';
+  ctx.lineWidth = 2.0;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(0, 200);
+  ctx.lineTo(44, 188);
+  ctx.quadraticCurveTo(164, 118, 264, 66);
+  ctx.quadraticCurveTo(295, 58, 360, 62);
+  ctx.stroke();
+
+  // Lush Mossy Cap on the Summit Plateau
+  ctx.fillStyle = '#8ec17e';
+  ctx.beginPath();
+  ctx.moveTo(256, 68);
+  ctx.quadraticCurveTo(292, 54, 360, 60);
+  ctx.lineTo(360, 74);
+  ctx.quadraticCurveTo(324, 70, 304, 76);
+  ctx.quadraticCurveTo(278, 70, 256, 73);
+  ctx.closePath();
+  ctx.fill();
+
+  // Swaying Emerald Grass Blades (Base & Summit)
+  const sway = Math.sin(catTime * 2.6) * 2.4;
+  ctx.strokeStyle = '#4e9150';
+  ctx.lineWidth = 1.9;
+  const drawTuft = (bx, by) => {
+    ctx.beginPath();
+    ctx.moveTo(bx, by); ctx.quadraticCurveTo(bx - 5 + sway * 0.5, by - 11, bx - 8 + sway, by - 17);
+    ctx.moveTo(bx + 5, by - 1); ctx.quadraticCurveTo(bx + 5 + sway * 0.6, by - 13, bx + 7 + sway, by - 20);
+    ctx.moveTo(bx + 10, by); ctx.quadraticCurveTo(bx + 14 + sway * 0.5, by - 10, bx + 17 + sway, by - 15);
+    ctx.stroke();
+  };
+  drawTuft(16, 198);
+  drawTuft(322, 62);
+
+  // Cute Pastel Bouldering Holds along the slope
+  CLIFF_HOLDS.forEach(h => {
+    const pt = cliffPoint(h.t);
+    const hx = pt.x + h.dx, hy = pt.y + h.dy;
+    ctx.save();
+    ctx.translate(hx, hy);
+    ctx.rotate(pt.angle * 0.6);
+    ctx.fillStyle = 'rgba(74, 59, 50, 0.14)';
+    ctx.beginPath(); ctx.ellipse(1, 2.2, h.r, h.r * 0.55, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = h.c;
+    ctx.strokeStyle = '#756657';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.ellipse(0, 0, h.r, h.r * 0.58, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.beginPath(); ctx.ellipse(-1.4, -1.1, h.r * 0.4, h.r * 0.2, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  });
+
+  // Dashed Route Trail + Active Emerald Climb Progress Trail
+  ctx.save();
+  ctx.setLineDash([4, 5]);
+  ctx.strokeStyle = 'rgba(74, 59, 50, 0.18)';
+  ctx.lineWidth = 2.2;
+  ctx.beginPath();
+  ctx.moveTo(52, 184);
+  ctx.quadraticCurveTo(164, 116, 264, 66);
+  ctx.stroke();
+  ctx.restore();
+
+  if (catSmoothPct > 0.005) {
+    ctx.strokeStyle = '#539e5c';
+    ctx.lineWidth = 3.0;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    const steps = Math.max(4, Math.round(catSmoothPct * 36));
+    for (let i = 0; i <= steps; i++) {
+      const pt = cliffPoint((i / steps) * catSmoothPct);
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.stroke();
+  }
+
+  // 3. Summit Glowing Gold Star
+  const starPulse = 1 + Math.sin(catTime * (isSummit ? 6.5 : 3.0)) * (isSummit ? 0.12 : 0.06);
+  const starX = 304, starY = 40;
+  if (isSummit) {
+    const ringPhase = (catTime * 1.1) % 1;
+    ctx.strokeStyle = `rgba(240, 186, 54, ${(1 - ringPhase) * 0.75})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(starX, starY, 12 + ringPhase * 20, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  drawRoundedStar(ctx, starX, starY, 13 * starPulse, 6.5 * starPulse, Math.sin(catTime * 2) * 0.1);
+
+  // 4. Draw Our Adorable Chubby Climbing Kitten!
+  const kPt = cliffPoint(catSmoothPct);
+  const kMode = isSummit ? 'summit' : (isClimbing ? 'climbing' : 'idle');
+  const kX = isSummit ? 264 : (kPt.x - 2);
+  const kY = isSummit ? 52 : (kPt.y - 18);
+  const kAng = isSummit ? 0 : (isClimbing ? kPt.angle * 0.55 : -0.14);
+  drawKitten(ctx, kX, kY, kAng, kMode, catTime, catPokeBoost);
+
+  // 5. Update & Render Particles (dust puffs, hearts, sparkles)
+  for (let i = catParticles.length - 1; i >= 0; i--) {
+    const p = catParticles[i];
+    p.life += dt;
+    if (p.life >= p.maxLife) { catParticles.splice(i, 1); continue; }
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    const alpha = Math.max(0, 1 - p.life / p.maxLife);
+    if (p.kind === 'dust') {
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (0.7 + p.life), 0, Math.PI * 2);
+      ctx.fill();
+    } else if (p.kind === 'heart') {
+      drawHeart(ctx, p.x, p.y, p.size, alpha);
+    } else {
+      drawFourPointStar(ctx, p.x, p.y, p.size * 0.75, '#f2bd3a', alpha);
+    }
+  }
+
+  ctx.restore();
+  catAnimRaf = requestAnimationFrame(renderCatScene);
+}
+
+function startCatAnim() {
+  if (!catAnimRaf) {
+    catLastTs = 0;
+    catAnimRaf = requestAnimationFrame(renderCatScene);
+  }
+}
 
 function setCatProgress(ratio) {
   const r = Math.max(0, Math.min(1, ratio));
-  const scene = document.getElementById('cmScene');
-  const cat = document.getElementById('catGroup');
-  const track = document.getElementById('climbTrackFill');
-
-  // Quadratic Bezier path along cliff: P0(42,174) -> P1(142,112) -> P2(248,46)
-  const t = r;
-  const inv = 1 - t;
-  const x = inv * inv * 42 + 2 * inv * t * 142 + t * t * 248;
-  const y = inv * inv * 174 + 2 * inv * t * 112 + t * t * 46;
-  // Angle flattens proudly to 0 deg right at the summit!
-  const angle = r >= 0.99 ? 0 : (-30 + 8 * r);
-  const summitLiftY = r >= 0.99 ? -11 : 0;
-  cat.setAttribute('transform', `translate(${x.toFixed(1)}, ${(y + summitLiftY).toFixed(1)}) rotate(${angle.toFixed(1)})`);
-
-  // Sync dashed green climb trail
-  const pathLen = 260;
-  track.setAttribute('stroke-dashoffset', (pathLen * (1 - r)).toFixed(1));
-
-  scene.classList.toggle('climbing', r > 0 && r < 0.999 && cmState === 'running');
-  scene.classList.toggle('summit-done', r >= 0.999);
-
+  catTargetPct = r;
+  if (r === 0 && cmState === 'prompt') catSmoothPct = 0;
   document.getElementById('cmTrackFill').style.width = Math.round(r * 100) + '%';
   document.getElementById('cmPct').textContent = Math.round(r * 100) + '%';
 }
@@ -2222,7 +2795,7 @@ function openCacheModal(mode = 'prompt') {
     setCatProgress(0);
   } else if (mode === 'running') {
     title.textContent = '正在为您缓存超清图片';
-    sub.textContent = '小猫登顶后，翻页和放大细节都能秒开。';
+    sub.textContent = '小猫登顶后，翻页和放大细节都能秒开（点小猫可以摸它）。';
     prog.classList.add('show');
     mainBtn.style.display = 'none';
     subBtn.textContent = '先后台下载，我边看边等';
@@ -2236,6 +2809,8 @@ function openCacheModal(mode = 'prompt') {
     mainBtn.classList.add('done');
     mainBtn.style.display = 'block';
     subBtn.style.display = 'none';
+    catTargetPct = 1;
+    catSmoothPct = 1;
     setCatProgress(1);
   } else if (mode === 'warn') {
     title.textContent = '有几张图网络卡住了';
@@ -2247,6 +2822,7 @@ function openCacheModal(mode = 'prompt') {
     subBtn.style.display = 'block';
   }
   bd.classList.add('open');
+  startCatAnim();
 }
 
 function dismissCacheModal() {
@@ -2293,7 +2869,7 @@ async function runActualPrecache() {
       document.getElementById('cmCountText').textContent = `${i} / ${totalDemo} 张（离线内置）`;
       document.getElementById('cmStage').textContent = r < 0.4 ? '正在校验 10 款超清成衣…' : (r < 0.78 ? '正在校验印花细节原图…' : '正在校验 DIY 拼装素材…');
       setCatProgress(r);
-      await new Promise(res => setTimeout(res, 32));
+      await new Promise(res => setTimeout(res, 55));
     }
     cacheRunning = false;
     btn.className = 'cache-btn done';
@@ -2357,7 +2933,7 @@ async function runActualPrecache() {
       openCacheModal('done');
       setTimeout(() => {
         if (cmState === 'done') dismissCacheModal();
-      }, 1500);
+      }, 2400);
     }
   } else {
     btn.className = 'cache-btn warn';

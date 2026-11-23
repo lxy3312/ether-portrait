@@ -1212,6 +1212,26 @@ let page = 0;
 let viewMode = 'pair'; // 'pair' | 'all' | 'starred'
 let starred = new Set(JSON.parse(localStorage.getItem('lily_tee_stars') || '[]'));
 
+// Per-visit Fisher-Yates shuffle (eliminates order bias while keeping true 01-10 IDs!)
+function getShuffledOrder() {
+  const key = 'lily_tee_order_v1';
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(key) || 'null');
+    if (Array.isArray(saved) && saved.length === ITEMS.length && saved.every(id => ITEMS.some(x => x.id === id))) {
+      return saved.map(id => ITEMS.find(x => x.id === id));
+    }
+  } catch (_) {}
+  const arr = [...ITEMS];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  try { sessionStorage.setItem(key, JSON.stringify(arr.map(x => x.id))); } catch (_) {}
+  return arr;
+}
+let DISPLAY_ITEMS = getShuffledOrder();
+
+
 function switchApp(m) {
   appMode = m;
   document.getElementById('tabVote').classList.toggle('active', m === 'vote');
@@ -1236,13 +1256,14 @@ function renderSteps() {
     return;
   }
   el.style.visibility = 'visible';
-  const labels = ['01–02', '03–04', '05–06', '07–08', '09–10'];
   const shortLabels = ['1', '2', '3', '4', '5'];
   const mobile = window.innerWidth <= 760;
   el.innerHTML = [0,1,2,3,4].map(i => {
-    const pairIds = [ITEMS[i*2].id, ITEMS[i*2+1].id];
+    const a = DISPLAY_ITEMS[i*2], b = DISPLAY_ITEMS[i*2+1];
+    const pairIds = [a.id, b.id];
     const hasStar = pairIds.some(id => starred.has(id));
-    return `<button class="step-pill ${i === page ? 'active' : ''} ${hasStar ? 'has-star' : ''}" onclick="jump(${i})">${mobile ? shortLabels[i] : labels[i]}</button>`;
+    const lbl = mobile ? shortLabels[i] : `${a.name}·${b.name}`;
+    return `<button class="step-pill ${i === page ? 'active' : ''} ${hasStar ? 'has-star' : ''}" onclick="jump(${i})">${lbl}</button>`;
   }).join('');
 }
 
@@ -1283,12 +1304,12 @@ function renderStage(popId = null) {
   const grid = document.getElementById('stageGrid');
   const pager = document.getElementById('pager');
   let slice;
-  if (viewMode === 'all') slice = ITEMS;
+  if (viewMode === 'all') slice = DISPLAY_ITEMS;
   else if (viewMode === 'starred') {
     slice = ITEMS.filter(x => starred.has(x.id));
-    if (!slice.length) { viewMode = 'pair'; slice = ITEMS.slice(page * 2, page * 2 + 2); }
+    if (!slice.length) { viewMode = 'pair'; slice = DISPLAY_ITEMS.slice(page * 2, page * 2 + 2); }
   } else {
-    slice = ITEMS.slice(page * 2, page * 2 + 2);
+    slice = DISPLAY_ITEMS.slice(page * 2, page * 2 + 2);
   }
   grid.innerHTML = slice.map(item => cardHTML(item, popId)).join('');
   pager.style.display = (viewMode === 'pair') ? 'flex' : 'none';
@@ -1363,7 +1384,7 @@ function scrollToStarred() {
   document.getElementById('starredSection').scrollIntoView({ behavior: 'smooth' });
 }
 function jumpToItem(id) {
-  const idx = ITEMS.findIndex(x => x.id === id);
+  const idx = DISPLAY_ITEMS.findIndex(x => x.id === id);
   if (idx < 0) return;
   if (viewMode === 'pair') { page = Math.floor(idx / 2); renderStage(); }
   setTimeout(() => {

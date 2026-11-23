@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<title>Ac—Cf · lxy3312</title>
+<title>01 — 10 · lxy3312</title>
 <style>
   :root {
     --bg: #f5f3ef;
@@ -226,11 +226,12 @@
     margin-bottom: 20px;
   }
   .num {
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Serif SC", "Songti SC", "Microsoft YaHei", sans-serif;
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: 0.08em;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 0.86;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
     color: var(--ink);
     transition: color 0.2s ease;
   }
@@ -366,7 +367,7 @@
   .mini-card { cursor: pointer; transition: transform 0.2s ease; }
   .mini-card:hover { transform: translateY(-2px); }
   .mini-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .mini-num { font-size: 17px; font-weight: 500; letter-spacing: 0.06em; }
+  .mini-num { font-family: "Georgia", "Times New Roman", serif; font-size: 24px; font-weight: 300; }
   .mini-rm { background: none; border: none; color: var(--gold); font-size: 17px; cursor: pointer; padding: 2px 6px; }
   .mini-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .mini-imgs img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; border-radius: 3px; background: var(--studio); }
@@ -600,7 +601,7 @@
   }
   .lb.detail-mode .lb-top { background: rgba(255, 255, 255, 0.90); }
   .lb-left { display: flex; align-items: center; gap: 12px; }
-  .lb-id { font-size: 18px; font-weight: 600; letter-spacing: 0.06em; }
+  .lb-id { font-family: "Georgia", "Times New Roman", serif; font-size: 22px; }
   .lb-seg {
     display: inline-flex; background: rgba(23, 23, 21, 0.06);
     padding: 3px; border-radius: 999px; gap: 2px;
@@ -940,7 +941,7 @@
     .cache-btn { height: 28px; padding: 0 9px; font-size: 11px; }
     .stage { padding: 22px 14px 8px; }
     .card { padding-bottom: 28px; margin-bottom: 28px; }
-    .num { font-size: 25px; }
+    .num { font-size: 40px; }
     .card-head { margin-bottom: 13px; }
     .star-btn { width: 40px; height: 40px; }
     .remix-btn { height: 30px; padding: 0 10px; font-size: 11px; }
@@ -963,7 +964,7 @@
   <div class="topbar-inner">
     <div class="brand-row">
       <div class="mode-tabs">
-        <button class="mode-tab active" id="tabVote" onclick="switchApp('vote')">选款</button>
+        <button class="mode-tab active" id="tabVote" onclick="switchApp('vote')">01—10</button>
         <button class="mode-tab" id="tabDiy" onclick="switchApp('diy')">DIY 拼装</button>
       </div>
     </div>
@@ -997,7 +998,7 @@
       </div>
       <div class="starred-actions">
         <button class="ghost-btn" id="onlyStarBtn" onclick="toggleOnlyStarred()" style="display:none;">仅看已收藏</button>
-        <button class="copy-btn" id="copyBtn" onclick="copyStarred()" disabled>复制已选</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyStarred()" disabled>复制编号</button>
       </div>
     </div>
     <div id="starredBody"></div>
@@ -1083,7 +1084,7 @@
 <div class="lb" id="lb">
   <div class="lb-top">
     <div class="lb-left">
-      <span class="lb-id" id="lbId">Ac 锕</span>
+      <span class="lb-id" id="lbId">01</span>
       <div class="lb-seg">
         <button id="lbFrontBtn" onclick="setLbSide('front')">FRONT</button>
         <button id="lbBackBtn" onclick="setLbSide('back')">BACK</button>
@@ -1153,16 +1154,16 @@
 
 <script>
 const ITEMS = [
-  { id: "01", name: "Ac 锕", front: "vote-img/front_base.webp?v=6", back: "vote-img/01_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_01_b.webp?v=6" },
-  { id: "02", name: "Th 钍", front: "vote-img/02_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_02_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
-  { id: "03", name: "Pa 镤", front: "vote-img/front_base.webp?v=6", back: "vote-img/03_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_03_b.webp?v=6" },
-  { id: "04", name: "U 铀", front: "vote-img/front_base.webp?v=6", back: "vote-img/04_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_04_b.webp?v=6" },
-  { id: "05", name: "Np 镎", front: "vote-img/front_base.webp?v=6", back: "vote-img/05_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_05_b.webp?v=6" },
-  { id: "06", name: "Pu 钚", front: "vote-img/06_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_06_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
-  { id: "07", name: "Am 镅", front: "vote-img/07_f.webp?v=6", back: "vote-img/06_b.webp?v=6", frontDetail: "vote-img/d_07_f.webp?v=6", backDetail: "vote-img/d_06_b.webp?v=6" },
-  { id: "08", name: "Cm 锔", front: "vote-img/08_f.webp?v=6", back: "vote-img/08_b.webp?v=6", frontDetail: "vote-img/d_08_b.webp?v=6", backDetail: "vote-img/d_08_f.webp?v=6" },
-  { id: "09", name: "Bk 锫", front: "vote-img/front_base.webp?v=6", back: "vote-img/09_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_09_b.webp?v=6" },
-  { id: "10", name: "Cf 锎", front: "vote-img/10_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_10_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" }
+  { id: "01", name: "01", front: "vote-img/front_base.webp?v=6", back: "vote-img/01_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_01_b.webp?v=6" },
+  { id: "02", name: "02", front: "vote-img/02_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_02_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
+  { id: "03", name: "03", front: "vote-img/front_base.webp?v=6", back: "vote-img/03_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_03_b.webp?v=6" },
+  { id: "04", name: "04", front: "vote-img/front_base.webp?v=6", back: "vote-img/04_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_04_b.webp?v=6" },
+  { id: "05", name: "05", front: "vote-img/front_base.webp?v=6", back: "vote-img/05_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_05_b.webp?v=6" },
+  { id: "06", name: "06", front: "vote-img/06_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_06_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" },
+  { id: "07", name: "07", front: "vote-img/07_f.webp?v=6", back: "vote-img/06_b.webp?v=6", frontDetail: "vote-img/d_07_f.webp?v=6", backDetail: "vote-img/d_06_b.webp?v=6" },
+  { id: "08", name: "08", front: "vote-img/08_f.webp?v=6", back: "vote-img/08_b.webp?v=6", frontDetail: "vote-img/d_08_b.webp?v=6", backDetail: "vote-img/d_08_f.webp?v=6" },
+  { id: "09", name: "09", front: "vote-img/front_base.webp?v=6", back: "vote-img/09_b.webp?v=6", frontDetail: "vote-img/d_front_base.webp?v=6", backDetail: "vote-img/d_09_b.webp?v=6" },
+  { id: "10", name: "10", front: "vote-img/10_f.webp?v=6", back: "vote-img/back_boy04.webp?v=6", frontDetail: "vote-img/d_10_b.webp?v=6", backDetail: "vote-img/d_front_base.webp?v=6" }
 ];
 
 const BLANK = {
@@ -1235,9 +1236,9 @@ function renderSteps() {
     return;
   }
   el.style.visibility = 'visible';
-  const labels = ['Ac·Th', 'Pa·U', 'Np·Pu', 'Am·Cm', 'Bk·Cf'];
+  const labels = ['01–02', '03–04', '05–06', '07–08', '09–10'];
   const shortLabels = ['1', '2', '3', '4', '5'];
-  const mobile = window.innerWidth <= 980;
+  const mobile = window.innerWidth <= 760;
   el.innerHTML = [0,1,2,3,4].map(i => {
     const pairIds = [ITEMS[i*2].id, ITEMS[i*2+1].id];
     const hasStar = pairIds.some(id => starred.has(id));
@@ -1388,7 +1389,7 @@ function copyStarred() {
     const b1 = document.getElementById('copyBtn');
     const b2 = document.getElementById('dockCopyBtn');
     b1.textContent = '已复制'; b2.textContent = '已复制';
-    setTimeout(() => { b1.textContent = '复制已选'; b2.textContent = '复制'; }, 1400);
+    setTimeout(() => { b1.textContent = '复制编号'; b2.textContent = '复制'; }, 1400);
   }).catch(() => alert(text));
 }
 
